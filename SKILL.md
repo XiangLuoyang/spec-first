@@ -42,16 +42,20 @@ Use the [Clarification Prompt](references/clarification-prompts.md) as a guide.
 
 ### Stage 2: Design / Spec
 
-Propose the high-level design or specification in **3-5 digestible chunks** (one message per chunk). 
+Propose the design in **chunks determined by task complexity**, not a fixed number:
+
+- **Simple tasks** (~<2h, well-scoped): Present design in 1 message. User approves or requests changes in one round.
+- **Medium tasks** (multiple concerns, ambiguity): 2 chunks max — group related concerns together.
+- **Complex tasks** (architecture decisions, many stakeholders): 3+ chunks, one per major concern.
 
 Each chunk should be:
 - No longer than 300 words
-- Focused on one aspect (architecture, data model, UI/UX, API, etc.)
+- Focused on one natural boundary (not arbitrary slices)
 - Presented as a proposal, not a done deal
 
-Wait for user to respond after each chunk. Mark chunks as **[APPROVED]** when user confirms.
+You may send multiple chunks in one message if they are independent (e.g., "Here are chunks 1 and 2, review together").
 
-If user requests changes, incorporate feedback before proceeding.
+Mark each chunk **[APPROVED]** as user confirms. If user requests changes, incorporate feedback before proceeding.
 
 **Output:** A confirmed spec covering all necessary aspects of the solution.
 
@@ -88,6 +92,7 @@ Format as a numbered list:
 Only begin coding after user says **"go"** (or equivalent).
 
 - Execute tasks **one at a time** or in small batches
+- Tests and coding can overlap — write tests for a component while implementing the next, rather than all tests after all code
 - After each significant step, report back: what was done, what was created/modified
 - If a subagent is needed for coding work, use `sessions_spawn(runtime="acp", mode="run")` and feed it the relevant spec and plan
 - If the user wants to pause, stop — do not continue unprompted
