@@ -107,6 +107,42 @@ After implementation:
 1. Summarize what was built and what files were created/modified
 2. Highlight any known limitations or areas that may need follow-up
 3. Provide basic usage instructions if applicable
+4. **Explicitly review and clean up scaffolding** (see below)
+
+---
+
+## Scaffold Management
+
+Scaffolding = temporary scripts, debug tools, test files created during development but not part of the final deliverable.
+
+### Principles
+
+1. **Scaffold explicitly**: When creating temporary files during execution, use a clear naming pattern (e.g., `temp_*.py`, `debug_*.js`)
+2. **Track what is scaffolding**: In the Implementation Plan, mark which tasks create scaffolding
+3. **Teardown in Review**: Stage 5 explicitly includes scaffold cleanup
+4. **If in doubt, delete**: If a script wasn't in the spec and isn't needed for production, delete it
+
+### Checklist for Stage 5
+
+- [ ] Production scripts confirmed (in `scripts/` or project root)
+- [ ] Scaffold scripts identified and deleted:
+  - `temp_*.py`, `test_*.py`, `debug_*.py`
+  - One-time migration scripts
+  - Scratchpad scripts
+- [ ] Documentation updated (if scaffolding had useful context)
+- [ ] Git commit with meaningful message
+
+### Example
+
+**Good workflow:**
+1. Execution creates `temp_email_test.py` → marked as scaffolding
+2. Review deletes `temp_email_test.py`
+3. Final commit only includes `email_organizer.py`
+
+**Bad workflow (bloated):**
+1. Execution creates `temp_email_test.py`, `debug_parse.py`, `move_batch.py`...
+2. No cleanup step
+3. Months later: 50+ orphaned scripts
 
 ---
 
@@ -127,3 +163,8 @@ When executing code via `sessions_spawn`, include these principles in the subage
 - Use `sessions_spawn(runtime="acp", mode="run")` for isolated coding tasks
 - If OpenClaw has native tools (read, write, exec) that can handle a task, use them instead of spawning a subagent
 - Keep the human in the loop at every major stage transition
+
+## Case Studies
+
+See `references/` for real-world examples:
+- `email-classification-case.md` - 邮件自动分类系统（2026-03-27）
