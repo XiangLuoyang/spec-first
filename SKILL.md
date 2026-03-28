@@ -168,3 +168,9 @@ When executing code via `sessions_spawn`, include these principles in the subage
 
 See `references/` for real-world examples:
 - `email-classification-case.md` - 邮件自动分类系统（2026-03-27）
+
+## 边界思考
+
+spec-first 解决的是 **"How"** 的问题，而不是 **"Why" 或 "What"**。把人带偏的往往是更深层的问题（自我认知、价值观、方向选择），不是一个工作流能解决的。
+
+接受边界，不做过度设计。如果遇到"Why/What"层面的困惑，这可能是另一个领域的问题。
