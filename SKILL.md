@@ -1,176 +1,193 @@
 ---
 name: spec-first
 description: >
-  Spec-first development workflow inspired by Superpowers. Activate when George asks
-  to code, build, create, implement, or fix something. Triggers on: "帮我做个...", "写个...",
-  "开发...", "实现...", "帮我写代码", or any task that involves building software.
-  The skill enforces a strict sequential workflow: (1) clarify and confirm the goal
-  before writing any code, (2) show design/spec in digestible chunks for user sign-off,
-  (3) output an implementation plan before coding, (4) execute only after explicit "go"
-  confirmation, (5) provide checkpoints during execution. Use sessions_spawn
-  (runtime="acp") for subagent-driven code execution when needed.
+  Spec-first development workflow for systematic thinking. Activate when George asks
+  to build, create, implement, design, plan, or think about something.
+  Triggers on: "帮我做个...", "写个...", "开发...", "实现...", "帮我写代码",
+  "帮我规划...", "我想了一下...", "做个...系统", "/think",
+  or any task that needs structured thinking.
 ---
 
-# Spec-First Development Workflow
+# Spec-First: 系统性思维启动器
 
-A structured development workflow that prevents premature coding and ensures alignment before any code is written.
+> 写代码之前，先把问题和方案想清楚。
 
-## Core Principle
+**核心理念：**
 
-**Never write code until the goal and design are confirmed by the user.** Coding is the last step, not the first.
+不急着给答案，先搞清楚要解决什么问题。代码是最后一步，不是第一步。
 
 ---
 
-## Workflow Stages
+## 触发方式
 
-### Stage 1: Clarify (Do this first, always)
+说清楚你的需求就行，例如：
 
-When a task comes in, engage in a focused Q&A to establish:
+- "帮我做个用户注册流程"
+- "我想做一个邮件分类系统"
+- "/think 怎么设计一个待办清单"
 
-- **What problem are we solving?** (User goal, not technical solution)
-- **Who will use it?** (User audience)
-- **What does success look like?** (Acceptance criteria)
-- **Any constraints?** (Tech stack, deadline, budget, existing systems)
-
-Use the [Clarification Prompt](references/clarification-prompts.md) as a guide.
-
-**Do not write any code in this stage.** Ask questions until you can rephrase the user's request back to them and they confirm it's correct.
-
-**Output:** A one-paragraph restatement of the goal, confirmed by the user.
+不需要说"用 spec-first"，我会自动判断并引导。
 
 ---
 
-### Stage 2: Design / Spec
+## 完整流程
 
-Propose the design in **chunks determined by task complexity**, not a fixed number:
+### Stage 1: Clarify — 澄清问题
 
-- **Simple tasks** (~<2h, well-scoped): Present design in 1 message. User approves or requests changes in one round.
-- **Medium tasks** (multiple concerns, ambiguity): 2 chunks max — group related concerns together.
-- **Complex tasks** (architecture decisions, many stakeholders): 3+ chunks, one per major concern.
+**目标：** 搞清楚到底要解决什么问题。
 
-Each chunk should be:
-- No longer than 300 words
-- Focused on one natural boundary (not arbitrary slices)
-- Presented as a proposal, not a done deal
+**我会问：**
+- 解决什么问题？谁会用？
+- 成功的样子是什么？
+- 有什么限制条件？
 
-You may send multiple chunks in one message if they are independent (e.g., "Here are chunks 1 and 2, review together").
-
-Mark each chunk **[APPROVED]** as user confirms. If user requests changes, incorporate feedback before proceeding.
-
-**Output:** A confirmed spec covering all necessary aspects of the solution.
+**结束时：** 能用一句话说清楚问题，用户确认。
 
 ---
 
-### Stage 3: Implementation Plan
+### Stage 2: Design — 方案设计
 
-Once the spec is approved, output an **Implementation Plan** with:
+**目标：** 搞清楚怎么做。
 
-1. Clear task breakdown (each task should be actionable and self-contained)
-2. Estimated complexity (simple / medium / complex) per task
-3. Suggested execution order
-4. Any decisions that need to be made before coding (e.g., "need to pick a library version")
+**我会：**
+- 提出设计方案，分块呈现
+- 每块不超过 300 字
+- 标注 [待确认] 等待你的反馈
 
-Format as a numbered list:
+**结束时：** 所有方案块都标注 [已确认]。
 
+---
+
+### Stage 3: Plan — 实施方案
+
+**目标：** 搞清楚先做什么。
+
+**我会输出：**
 ```
-## Implementation Plan
+## 实施方案
 
-1. **[Task name]** (complexity: medium)
-   - What: ...
-   - Risk: ...
-   
-2. **[Task name]** (complexity: simple)
-   ...
+1. [任务名]（复杂度：低/中/高）
+   - 要做什么
+   - 风险点
+
+2. ...
 ```
 
-**Output:** An approved plan that the user explicitly confirms with "go".
+**结束时：** 用户明确说 "go" 才进入执行。
 
 ---
 
-### Stage 4: Execute
+### ⭐ Stage 3.5: Use Case 预览（新增）
 
-Only begin coding after user says **"go"** (or equivalent).
+**在 Plan 之后、Execute 之前，我会输出一个 Use Case：**
 
-- Execute tasks **one at a time** or in small batches
-- Tests and coding can overlap — write tests for a component while implementing the next, rather than all tests after all code
-- After each significant step, report back: what was done, what was created/modified
-- If a subagent is needed for coding work, use `sessions_spawn(runtime="acp", mode="run")` and feed it the relevant spec and plan
-- If the user wants to pause, stop — do not continue unprompted
-- If new requirements emerge, **return to Stage 1** — do not silently scope-creep
+用具体场景描述"如果按这个方案做出来，会是什么样子"。
 
----
+**风格要求：**
+- 口语化但不幼稚
+- 具体场景 + 具体数字
+- 像资深产品经理在陈述需求
+- 不夸张，不煽情
 
-### Stage 5: Review & Handoff
+**示例：**
 
-After implementation:
+```
+📖 Use Case:
 
-1. Summarize what was built and what files were created/modified
-2. Highlight any known limitations or areas that may need follow-up
-3. Provide basic usage instructions if applicable
-4. **Explicitly review and clean up scaffolding** (see below)
+用户早上到公司，打开邮箱。
+系统推送昨晚邮件摘要：共 23 封，3 封重要。
 
----
+点开摘要：
+- 猎头来信，薪资涨 30%，已归档到 Work
+- 快递到了，下午 2 点前取
+- 服务器报警，需要登录处理
 
-## Scaffold Management
+用户 5 分钟处理完，开始正常工作。
+以前要花 1 小时，现在只需要...
+```
 
-Scaffolding = temporary scripts, debug tools, test files created during development but not part of the final deliverable.
+**作用：**
+- 让用户快速判断"这是不是我想要的"
+- 减少理解偏差导致的返工
 
-### Principles
+**确认方式：**
 
-1. **Scaffold explicitly**: When creating temporary files during execution, use a clear naming pattern (e.g., `temp_*.py`, `debug_*.js`)
-2. **Track what is scaffolding**: In the Implementation Plan, mark which tasks create scaffolding
-3. **Teardown in Review**: Stage 5 explicitly includes scaffold cleanup
-4. **If in doubt, delete**: If a script wasn't in the spec and isn't needed for production, delete it
-
-### Checklist for Stage 5
-
-- [ ] Production scripts confirmed (in `scripts/` or project root)
-- [ ] Scaffold scripts identified and deleted:
-  - `temp_*.py`, `test_*.py`, `debug_*.py`
-  - One-time migration scripts
-  - Scratchpad scripts
-- [ ] Documentation updated (if scaffolding had useful context)
-- [ ] Git commit with meaningful message
-
-### Example
-
-**Good workflow:**
-1. Execution creates `temp_email_test.py` → marked as scaffolding
-2. Review deletes `temp_email_test.py`
-3. Final commit only includes `email_organizer.py`
-
-**Bad workflow (bloated):**
-1. Execution creates `temp_email_test.py`, `debug_parse.py`, `move_batch.py`...
-2. No cleanup step
-3. Months later: 50+ orphaned scripts
+```
+这是按我们的方案做出来的效果。
+如果符合你的预期，说 "go" 开始执行。
+如果不对，告诉我哪里需要调整。
+```
 
 ---
 
-## Coding Principles (for subagents)
+### Stage 4: Execute — 执行
 
-When executing code via `sessions_spawn`, include these principles in the subagent prompt:
+**前提：** 用户明确说 "go"
 
-- **YAGNI**: Don't add functionality not explicitly in the spec
-- **DRY**: Avoid obvious repetition
-- **TDD where practical**: Write a failing test before writing code if feasible
-- **No half-baked commits**: Code should compile / run before being presented as done
+**我会：**
+- 按计划逐步执行
+- 每步完成后汇报
+- 遇到问题停下来等你指示
+
+**遇到新需求：** 按照"回退机制"处理。
 
 ---
 
-## Skill Interaction
+### Stage 5: Review — 收尾
 
-- This skill orchestrates; it does not do the heavy coding itself
-- Use `sessions_spawn(runtime="acp", mode="run")` for isolated coding tasks
-- If OpenClaw has native tools (read, write, exec) that can handle a task, use them instead of spawning a subagent
-- Keep the human in the loop at every major stage transition
+**我会：**
+- 总结做完了什么
+- 清理临时文件
+- 提交有意义的 commit
 
-## Case Studies
+---
 
-See `references/` for real-world examples:
-- `email-classification-case.md` - 邮件自动分类系统（2026-03-27）
+## 回退机制
 
-## 边界思考
+**当用户反馈不符合预期时：**
 
-spec-first 解决的是 **"How"** 的问题，而不是 **"Why" 或 "What"**。把人带偏的往往是更深层的问题（自我认知、价值观、方向选择），不是一个工作流能解决的。
+AI 分析反馈，判断问题在哪，建议退回阶段：
 
-接受边界，不做过度设计。如果遇到"Why/What"层面的困惑，这可能是另一个领域的问题。
+```
+[分析] 你的反馈是关于方案方向，不是实施步骤。
+[建议] 看起来应该退回到 Design 阶段，重新讨论方案。
+
+可选：
+1. 退回 Clarify（重新定义问题）
+2. 退回 Design（重新设计方案）
+3. 退回 Plan（调整实施步骤）
+4. 重做 Use Case（调整预期描述）
+
+你想退回到哪个阶段？
+```
+
+**原则：**
+- AI 给出分析和建议
+- 用户决定退到哪
+- 不擅自跳转阶段
+
+---
+
+## Scaffold 管理
+
+临时文件要有明确命名（如 `temp_*.py`），最终删除。
+
+**收尾清单：**
+- [ ] 确认生产文件
+- [ ] 删除 `temp_*`, `debug_*`, `test_*` 等临时文件
+- [ ] 有意义的 commit
+
+---
+
+## 边界说明
+
+spec-first 解决 **"怎么做"** 的问题，不是 **"为什么做"** 或 "做什么"。
+
+如果遇到方向困惑，这可能是另一个领域的问题（如价值观、自我认知），工作流解决不了。
+
+---
+
+## 案例参考
+
+`references/` 目录下有真实案例：
+- `email-classification-case.md` — 邮件自动分类系统（2026-03-27）
