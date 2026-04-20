@@ -185,38 +185,48 @@ D. 其他（请说明）
 
 ### Stage 7: Compound — 经验输出
 
-**定位：** Review 完成后，执行最终 capture flush + 检测会话全程的经验。
-
-**与 WikiNote 的关系：** 如果 WikiNote skill 已加载，Compound 阶段委托给 WikiNote 的实时捕获协议（见 SKILL.md「实时捕获协议」章节）。不需要重新发明写入逻辑。
+**定位：** Review 完成后，检测会话全程的经验并写入。
 
 **执行流程：**
 
 ```
-1. Flush capture queue
-   ├── 如果 WikiNote 已加载 → 使用其 capture protocol 呈现任何剩余的 queued items
-   └── 如果未加载 → 直接按下方逻辑处理
-
-2. 检测 session-level insights（整个对话过程中的洞察）
+1. 检测 session-level insights
    ├── 新的洞察或方法论
    ├── 踩过的坑及解决方案
    ├── 可复用的模式
    ├── 与预期不符的学习
    └── 对未来工作有参考价值的内容
 
+2. 如果 WikiNote 已加载 → 同时 flush capture queue（已积累的实时捕获项）
+   呈现所有候选项（session insights + queued items）给用户
+
 3. Present to user
-   ├── List all capture candidates (flushed queue + session insights)
+   ├── List all capture candidates
    └── User decides: write / modify / defer / discard
 
 4. Execute approved writes
    ├── 如果 WikiNote 已加载 → 遵循其写入规则（naming, frontmatter, cross-ref, index, log）
-   └── 如果未加载 → 写入当日 Daily 或提示用户指定位置
+   └── 如果未加载 → 使用下方简化规则
 ```
 
-**关键变更：**
-- Compound 不再只问一个问题就结束
-- 它同时处理 queued captures 和 session-level reflection
-- 它尊重 WikiNote 的基础设施（log, index, naming），而不是绕过它
-- 如果 WikiNote 未加载，它仍然能优雅降级
+**WikiNote 未加载时的简化写入规则：**
+
+```text
+写入目标：项目目录下的 learnings.md（不存在则创建）
+
+格式：
+## [YYYY-MM-DD] {项目/任务名}
+
+### {洞察标题}
+{内容，每条加一句话摘要}
+
+示例：
+## [2026-04-21] 邮件分类系统
+
+### 具体异常类型比宽泛 Exception 更好
+使用 try-except 时，捕获特定异常能避免吞掉意外错误。
+在批量处理场景中，这一点尤其重要。
+```
 
 **Human in Loop：** 决策权仍在用户。触发权归 Agent。
 
