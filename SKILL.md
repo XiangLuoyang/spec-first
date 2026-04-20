@@ -1,7 +1,7 @@
 ---
 name: spec-first
 description: >
-  Spec-first development workflow for systematic thinking. Activate when George asks
+  Spec-first development workflow for systematic thinking. Activate when the user asks
   to build, create, implement, design, plan, or think about something.
   Triggers on: "帮我做个...", "写个...", "开发...", "实现...", "帮我写代码",
   "帮我规划...", "我想了一下...", "做个...系统", "/think",
@@ -36,10 +36,10 @@ description: >
 
 **目标：** 搞清楚到底要解决什么问题。
 
-**执行方式：** 用 `question` 工具直接给出选项，不要先问开放性问题。
+**执行方式：** 直接给出选项（用 AskUserQuestion 或在回复中直接列出），不要先问开放性问题。
 
 **我会：**
-- 一次性给出 2-4 个互斥选项（用 `question` 工具）
+- 一次性给出 2-4 个互斥选项（用 AskUserQuestion 或直接列出）
 - 选项要具体、可操作
 - 每选项附简短说明
 
@@ -205,14 +205,14 @@ D. 其他（请说明）
 用户决策：
 A. 写入 Wiki/concepts/   ← 概念/方法论类
 B. 写入 Wiki/synthesis/ ← 综合分析/研究类
-C. 写入 Nebula 当日日记  ← 临时记录
-D. 丢弃              ← 不保存
+C. 写入当日日记          ← 临时记录
+D. 丢弃                ← 不保存
 ```
 
 **执行：**
 - Agent 询问用户决策
 - 用户选择后，Agent 执行写入操作
-- 记录到 Nebula 的对应位置
+- 记录到对应位置
 
 **本质：**
 - 触发是 Agent 自动（减轻用户认知负担）
