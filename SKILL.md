@@ -3,7 +3,7 @@ name: spec-first
 description: >
   Spec-first development workflow for systematic thinking. Activate when the user asks
   to build, create, implement, design, plan, or think about something.
-  Triggers on: "帮我做个...", "写个...", "开发...", "实现...", "帮我写代码",
+  Triggers on: "spec 一下...", "帮我做个...", "写个...", "开发...", "实现...", "帮我写代码",
   "帮我规划...", "我想了一下...", "做个...系统", "/think",
   or any task that needs structured thinking.
 ---
